@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface Servidor {
-	public void retiraMensagens();
+	public void retiraMensagens(int quantidadeSolicitada);
 }

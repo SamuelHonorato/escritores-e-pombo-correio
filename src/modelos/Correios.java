@@ -1,6 +1,9 @@
 package modelos;
 
-public class Correios {
+import interfaces.Cliente;
+import interfaces.Servidor;
+
+public class Correios implements Cliente, Servidor {
 	private int quantidadeMaximaMensagens;
 	private int quantidadeDeMensagens;
 	private int quantidadeParaAcordarOPombo;

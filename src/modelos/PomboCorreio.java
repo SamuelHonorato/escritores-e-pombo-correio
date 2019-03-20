@@ -1,6 +1,7 @@
 package modelos;
 
 import interfaces.SentidoDoVoo;
+import interfaces.Servidor;
 
 public class PomboCorreio implements Runnable {
 
@@ -9,10 +10,9 @@ public class PomboCorreio implements Runnable {
 	private int tempoDeRetiradaEmSegundos;
 	private int tempoDeVooEmSegundos;
 	private int tempoDeDescarregarNoDestinoEmSegundo;
-	private Correios caixaPostal;
+	private Servidor caixaPostal;
 	private boolean sentidoDoVooOrigemDestino;
 	private SentidoDoVoo sentidoDoVoo;
-	
 	
 	private final String avisoDeDescarregar = "*** Pombo está descarregando mensagens no destino";
 	private final String avisoSolicitaMensagens = "*** Pombo vai solicirar mensagens";
@@ -20,7 +20,7 @@ public class PomboCorreio implements Runnable {
 	
 	public PomboCorreio(int quantidadeMinimaParaEntrega, int quantidadeNaBolsa,
 			int tempoDeRetiradaEmSegundos, int tempoDeVooEmSegundos,
-			int tempoDeDescarregarNoDestinoEmSegundo, Correios caixaPostal) {
+			int tempoDeDescarregarNoDestinoEmSegundo, Servidor caixaPostal) {
 		
 		this.quantidadeMinimaParaEntrega = quantidadeMinimaParaEntrega;
 		this.quantidadeNaBolsa = quantidadeNaBolsa;
@@ -47,15 +47,9 @@ public class PomboCorreio implements Runnable {
 		// SOLICITA UMA QUANTIDADE DE MENSAGENS PARA PREENCHER A BOLSA COM O VALOR MINIMO PARA ENTREGA
 		caixaPostal.retiraMensagens(quantidadeDeMensagensASolicitar);
 		
-		// TEMPO PARA RETIRAR MENSAGENS DOS CORREIOS
-		
 		System.out.println(avisoRetiraMensagens);
 		
-		try {
-			Thread.sleep(tempoDeRetiradaEmSegundos * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
+		dormir(tempoDeRetiradaEmSegundos);
 	}
 	
 	private void descarregaMensagens() {
@@ -63,15 +57,9 @@ public class PomboCorreio implements Runnable {
 		// DESCARREGA MENSAGENS NO DESTINO
 		quantidadeNaBolsa = 0;
 		
-		// TEMPO PARA DESCARREGAR MENSAGENS
-		
 		System.out.println(avisoDeDescarregar);
 		
-		try {
-			Thread.sleep(tempoDeDescarregarNoDestinoEmSegundo * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		dormir(tempoDeDescarregarNoDestinoEmSegundo);
 	}
 	
 	@Override
@@ -93,6 +81,14 @@ public class PomboCorreio implements Runnable {
 			
 			sentidoDoVoo.voar(tempoDeVooEmSegundos);
 			sentidoDoVooOrigemDestino = !sentidoDoVooOrigemDestino;
+		}
+	}
+	
+	private void dormir(int tempoEmSegundos) {
+		try {
+			Thread.sleep(tempoEmSegundos * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }

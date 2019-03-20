@@ -1,12 +1,14 @@
 package modelos;
 
+import interfaces.Cliente;
+
 public class Escritor implements Runnable {
 
-	private Correios caixaPostal;
+	private Cliente caixaPostal;
 	private String identificador;
 	private int tempoDeEscritaEmSegundos;
 	
-	public Escritor(String identificador, int tempoDeEscritaEmSegundos, Correios caixaPostal) {
+	public Escritor(String identificador, int tempoDeEscritaEmSegundos, Cliente caixaPostal) {
 		this.identificador = identificador;
 		this.caixaPostal = caixaPostal;
 		this.tempoDeEscritaEmSegundos = tempoDeEscritaEmSegundos;
@@ -16,11 +18,7 @@ public class Escritor implements Runnable {
 		
 		System.out.println(identificador + " está escrevendo.");
 		
-		try {
-			Thread.sleep(tempoDeEscritaEmSegundos * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		dormir(tempoDeEscritaEmSegundos);
 		
 		caixaPostal.adicionaMensagens(identificador);
 	}
@@ -30,6 +28,14 @@ public class Escritor implements Runnable {
 		
 		while(true){
 			escrever();
+		}
+	}
+	
+	private void dormir(int tempoEmSegundos) {
+		try {
+			Thread.sleep(tempoEmSegundos * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
