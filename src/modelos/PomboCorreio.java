@@ -35,7 +35,7 @@ public class PomboCorreio implements Runnable {
 		
 		int quantidadeSolicitada = quantidadeMinimaParaEntrega - quantidadeNaBolsa;
 		
-		System.out.println(avisoSolicitaMensagens + quantidadeSolicitada);
+		System.out.println(avisoSolicitaMensagens + ": " + quantidadeSolicitada);
 		
 		return quantidadeSolicitada;
 	}
