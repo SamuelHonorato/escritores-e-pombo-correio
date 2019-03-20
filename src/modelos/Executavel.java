@@ -1,27 +1,18 @@
 package modelos;
 
-import interfaces.CaixaPostalFuncionario;
-
 public class Executavel {
-
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		//Quantidade maxima de mensagens da caixa postal e quantidade de mensagens de inicio
-		CaixaPostal caixaPostal = new CaixaPostal(20, 10);
-		ListaUsuarios usuarios = new ListaUsuarios(caixaPostal);
-		
-		//quantidadeMinimaParaEntrega, quantidadeNaBolsa, tempoDeRetiradaEmSegundos, tempoDeVooEmSegundos, tempoDeDescarregarNoDestino, CaixaPostalFuncionario caixaPostal)
-		Pombo pombo = new Pombo(3, 0, 3, 3, 3, caixaPostal);
-		
-		
-		//Identificador e tempo de escrita em segundos
-		usuarios.adicionaUsuario(new Usuario("Samuel", 3));
-		usuarios.adicionaUsuario(new Usuario("Bruno", 3));
-		
-		
-		usuarios.iniciaUsuarios();
-		pombo.start();
-	}
 
+		Correios caixaPostal = new Correios(10, 0);
+		Thread pomboCorreio = new Thread(new PomboCorreio(3, 0, 3, 1, 3, caixaPostal));
+		Thread escritor1 = new Thread(new Escritor("Samuel", 3, caixaPostal));
+		Thread escritor2 = new Thread(new Escritor("Joao", 3, caixaPostal));
+		Thread escritor3 = new Thread(new Escritor("Pedro", 3, caixaPostal));
+		
+		pomboCorreio.start();
+		escritor1.start();
+		escritor2.start();
+		escritor3.start();
+	}
 }

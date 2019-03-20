@@ -1,0 +1,5 @@
+package interfaces;
+
+public interface Servidor {
+	public void retiraMensagens();
+}
